@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { authRoutes } from './auth.routes'
-import { financeRoutes } from './finance.routes'
+import { authRoutes } from '../modules/auth/routes/auth.routes'
+import { financeRoutes } from '../modules/finance/finance.routes'
 
 const router = Router()
 

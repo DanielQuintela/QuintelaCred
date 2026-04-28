@@ -1,5 +1,5 @@
 import express from 'express'
-import { router } from './modules/auth/routes'
+import { router } from './routes'
 import cors from 'cors'
 
 const app = express()
