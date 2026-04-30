@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
+import { ZodSchema } from 'zod'
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(' ')[1]
@@ -26,3 +27,18 @@ export class ResponseError extends Error {
   }
 }
 
+
+export function validateDto(schema: ZodSchema) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.body)
+
+    if (!result.success) {
+      return res.status(400).json({
+        error: result.error.format()
+      })
+    }
+
+    req.body = result.data
+    next()
+  }
+}

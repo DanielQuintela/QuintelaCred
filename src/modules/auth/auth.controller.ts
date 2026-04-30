@@ -5,24 +5,14 @@ const authService = new AuthService()
 
 export class AuthController {
   async register(req: Request, res: Response) {
-    try {
-
       const user = await authService.register(req.body)
 
-      return res.status(201).json(user)
-    } catch (error: any) {
-      return res.status(400).json({ error: error.message })
-    }
+      return res.status(201).send({data:user, message:'Usuario cadastrado com sucesso', success:true})
   }
 
   async login(req: Request, res: Response) {
-    try {
-     
       const result = await authService.login(req.body)
 
-      return res.json(result)
-    } catch (error: any) {
-      return res.status(401).json({ error: error.message })
-    }
+      return res.status(200).send({data:result, message:'Login successful', success:true})
   }
 }
