@@ -16,3 +16,13 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     return res.status(401).json({ error: 'Invalid token' })
   }
 }
+
+export class ResponseError extends Error {
+  statusCode: number
+
+  constructor(message: string, statusCode = 400) {
+    super(message)
+    this.statusCode = statusCode
+  }
+}
+
