@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { prisma } from '../../infra/database/prismaClient'
+import { prisma } from '../../lib/prisma'
 import { ResponseError } from '../../middlewares'
 import { LoginData, RegisterData } from '../../@types/auth.type'
+
 
 export class AuthService {
   async register(data: RegisterData) {
@@ -22,14 +23,12 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 8)
 
-    // TODO: REMOVER STATUS NA PROXIMA MIGRAÇÃO
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        role: 'USER',
-        status: 'ACTIVE'
+        role: 'USER'
       }
     })
 
