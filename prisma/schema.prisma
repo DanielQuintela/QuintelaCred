@@ -19,14 +19,18 @@ model User {
 }
 
 model Tax {
-  id                 String   @id @default(uuid())
+  id                 String    @id @default(uuid())
   installmentsNumber Int
-  value              Float
-  cardFlag           String
-  type               String
+  value              Decimal   @db.Decimal(10, 5)
+
+  cardFlag           CardFlag
+  type               TaxType
+  bankName           String?
+
   description        String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }
 
 enum UserRole {
@@ -37,4 +41,19 @@ enum UserRole {
 enum UserStatus {
   ACTIVE
   INACTIVE
+}
+
+enum CardFlag {
+  MASTER
+  VISA
+  ELO
+  AMEX
+  DINERS
+  HIPERCARD
+  OUTROS
+}
+
+enum TaxType {
+  LIBERADO
+  LIMITE
 }
