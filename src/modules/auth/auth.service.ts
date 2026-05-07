@@ -9,10 +9,6 @@ export class AuthService {
   async register(data: RegisterData) {
     const { name, email, password } = data
     
-    if (!name || !email || !password) {
-      throw new ResponseError('Missing fields', 400)
-    }
-
     const userExists = await prisma.user.findUnique({
       where: { email }
     })
@@ -41,10 +37,7 @@ export class AuthService {
 
   async login(data: LoginData) {
     const { email, password } = data
-    if (!email || !password) {
-      throw new ResponseError('Missing fields', 400)
-    }
-
+   
     const user = await prisma.user.findUnique({
       where: { email }
     })
@@ -68,7 +61,7 @@ export class AuthService {
     }
 
     const token = jwt.sign(
-      { userId: user.id },
+      { userId: user.id, userEmail: user.email, userName: user.name },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     )
