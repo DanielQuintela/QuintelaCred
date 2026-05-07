@@ -1,6 +1,6 @@
 import { Router } from 'express'
 // import { calculate } from './finance.controller'
-import { authMiddleware } from '../../middlewares'
+import { authMiddleware } from '../../middlewares/auth'
 
 const router = Router()
 

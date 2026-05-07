@@ -11,3 +11,9 @@ export interface LoginData {
     password: string
 }
 
+export interface TokenPayload {
+  userId: string
+  userEmail: string
+  userName: string
+}
+
