@@ -19,8 +19,18 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
     req.user = decoded
 
+    console.log(req.user)
+
     next()
   } catch {
     throw new ResponseError('Invalid token', 401)
   }
+}
+
+export function adminMiddleware(req: Request, res: Response, next: NextFunction) {
+  if (req.user.userRole !== 'ADMIN') {
+    throw new ResponseError('Unauthorized', 403)
+  }
+
+  next()
 }

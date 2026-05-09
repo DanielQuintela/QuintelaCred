@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { prisma } from '../../lib/prisma'
+import { prisma } from '../../infra/lib/prisma'
 import { ResponseError } from '../../middlewares'
 import { LoginData, RegisterData } from '../../@types/auth.type'
 
@@ -61,7 +61,7 @@ export class AuthService {
     }
 
     const token = jwt.sign(
-      { userId: user.id, userEmail: user.email, userName: user.name },
+      { userId: user.id, userEmail: user.email, userName: user.name, userRole: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     )
