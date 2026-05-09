@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { authRoutes } from '../modules/auth/routes/auth.routes'
-import { simulationRoutes } from '../modules/simulation/simulation.routes'
+import { simulationRoutes } from '../modules/simulation/routes/simulation.routes'
 import { taxRoutes } from '../modules/tax/routes/tax.routes'
 
 const router = Router()
