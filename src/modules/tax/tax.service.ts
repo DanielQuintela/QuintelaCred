@@ -7,7 +7,6 @@ const repository = new TaxRepository()
 
 export class TaxService {
   async create(data: CreateTaxData) {
-    
     const taxExists = await repository.findExisting(data)
 
     if (taxExists) {
@@ -23,15 +22,37 @@ export class TaxService {
     return repository.findMany()
   }
 
+   async findById(id: string) {
+    const tax = await repository.findById(id)
+
+    if (!tax) {
+      throw new ResponseError('Tax not found', 404)
+    }
+
+    return tax
+  }
+
   async findExisting(data: GetTaxData) {
     return repository.findExisting(data)
   }
 
-  async update(data: UpdateTaxData) {
-    return repository.updateTaxData(data)
+  async update(id: string, data: UpdateTaxData) {
+    const taxExists = await repository.findById(id)
+
+    if (!taxExists) {
+      throw new ResponseError('Tax not found', 404)
+    }
+
+    return repository.update(id, data)
   }
 
   async delete(id: string) {
-    return repository.deleteTaxData(id)
+    const taxExists = await repository.findById(id)
+
+    if (!taxExists) {
+      throw new ResponseError('Tax not found', 404)
+    }
+
+    await repository.delete(id)
   }
 }

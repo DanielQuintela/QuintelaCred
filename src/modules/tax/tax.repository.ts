@@ -17,6 +17,12 @@ export class TaxRepository {
     })
   }
 
+  async findById(id: string) {
+    return prisma.tax.findUnique({
+      where: { id }
+    })
+  }
+
   async findExisting(data: GetTaxData) {
     return prisma.tax.findFirst({
       where: {
@@ -28,23 +34,16 @@ export class TaxRepository {
     })
   }
 
-  async updateTaxData(data: UpdateTaxData) {
+  async update(id: string, data: UpdateTaxData) {
     return prisma.tax.update({
-      where: {
-        id: data.id
-      },
+      where: { id },
       data
     })
   }
 
-  async deleteTaxData(id: string) {
+  async delete(id: string) {
     return prisma.tax.delete({
-      where: {
-        id
-      }
+      where: { id }
     })
   }
-
-
-  
 }
