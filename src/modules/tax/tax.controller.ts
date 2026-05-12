@@ -47,7 +47,7 @@ export class TaxController {
   }
 
   delete = async (req: Request, res: Response) => {
-    const id = req.params.id as string
+    const id = req.query.id as string
 
     await service.delete(id)
 

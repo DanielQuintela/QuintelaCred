@@ -19,8 +19,6 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
     req.user = decoded
 
-    console.log(req.user)
-
     next()
   } catch {
     throw new ResponseError('Invalid token', 401)
