@@ -19,24 +19,55 @@ export class SimulationService {
     if (!tax) {
       throw new ResponseError('Tax not found', 404)
     }
-   
+
+    let grossAmount: number
+    let installmentAmount: number
+    let taxValue: number
+    let recivedAmount: number
+
     const taxPercentage = Number(tax.value)
+    const taxRate = taxPercentage / 100
 
-    const taxRate = taxPercentage / 100    
+    if (tax.type === 'LIBERADO') {
+      // Usuário informa quanto quer receber
+      grossAmount = arredondarParaDuasCasas(
+        data.amount * (1 + taxRate)
+      )
 
-    const grossAmount = arredondarParaDuasCasas(data.amount * (1 + taxRate))
+      installmentAmount = arredondarParaDuasCasas(
+        grossAmount / data.installmentsNumber
+      )
 
-    const installmentAmount = arredondarParaDuasCasas(grossAmount / data.installmentsNumber)
+      taxValue = arredondarParaDuasCasas(
+        grossAmount - data.amount
+      )
 
-    const taxValue = arredondarParaDuasCasas(grossAmount - data.amount)
+      recivedAmount = data.amount
 
+    } else {
+      // Usuário informa quanto vai passar no cartão
+      grossAmount = data.amount
+
+      installmentAmount = arredondarParaDuasCasas(
+        grossAmount / data.installmentsNumber
+      )
+
+      recivedAmount = arredondarParaDuasCasas(
+        grossAmount * (1 - taxRate)
+      )
+
+      taxValue = arredondarParaDuasCasas(
+        grossAmount - recivedAmount
+      )
+    }
 
     return {
-      reciveAmount: data.amount,
+      amount: data.amount,
       installmentNumber: data.installmentsNumber,
       installmentAmount,
       taxPercentage,
-      taxValue
+      taxValue,
+      recivedAmount
     }
   }
 }
