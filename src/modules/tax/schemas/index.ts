@@ -13,7 +13,6 @@ export const createTaxSchema = z.object({
 })
 
 export const updateTaxSchema = z.object({
-  id: z.string(),
   installmentsNumber: z.number().min(1).optional(),
   value: z.number().positive().optional(),
 

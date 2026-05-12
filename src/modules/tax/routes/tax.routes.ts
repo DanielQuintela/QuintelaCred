@@ -15,6 +15,6 @@ router.post('/create',   authMiddleware, adminMiddleware, validateDto(createTaxS
 router.get('/find',    authMiddleware, controller.findMany)
 router.get('/find-existing', authMiddleware, controller.findExisting)
 router.put('/update',    authMiddleware, adminMiddleware, validateDto(updateTaxSchema), controller.update)
-router.delete('/delete', authMiddleware, adminMiddleware, controller.delete)
+router.delete('/delete/:id', authMiddleware, adminMiddleware, controller.delete)
 
 export { router as taxRoutes }

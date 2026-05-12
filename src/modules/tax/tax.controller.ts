@@ -37,8 +37,8 @@ export class TaxController {
     return res.json(tax)
   }
 
-  update = async (req: Request, res: Response) => {
-    const id = req.params.id as string
+  update = async (req: Request, res: Response) => {    
+    const id = req.query.id as string
     const body: UpdateTaxData = req.body
 
     const tax = await service.update(id, body)
