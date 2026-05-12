@@ -10,8 +10,10 @@ export interface SimulateData {
 export interface SimulationResult {
   amount: number
   taxPercentage: number
-  taxValue: number
+  tax: number
+  taxaCalculada: number
   installmentAmount: number
   installmentNumber: number
-  recivedAmount: number
+  receivedAmount: number
+  passaNoCartao: number
 }

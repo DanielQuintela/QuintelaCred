@@ -20,54 +20,54 @@ export class SimulationService {
       throw new ResponseError('Tax not found', 404)
     }
 
-    let grossAmount: number
-    let installmentAmount: number
-    let taxValue: number
-    let recivedAmount: number
+    let valorParcelas: number
+    let valorRecebido: number
+    let passaNoCartao: number
 
     const taxPercentage = Number(tax.value)
     const taxRate = taxPercentage / 100
+    const taxRateFormatted = Number((taxPercentage / 100).toFixed(4))
+
+    let valorCalculo = data.amount
+    let taxaCalculada = arredondarParaDuasCasas(
+      valorCalculo * taxRate
+    )
 
     if (tax.type === 'LIBERADO') {
       // Usuário informa quanto quer receber
-      grossAmount = arredondarParaDuasCasas(
-        data.amount * (1 + taxRate)
+
+      valorRecebido = valorCalculo
+      
+      const paidAmount = taxaCalculada + valorCalculo
+
+      valorParcelas = arredondarParaDuasCasas(
+        paidAmount / data.installmentsNumber
       )
 
-      installmentAmount = arredondarParaDuasCasas(
-        grossAmount / data.installmentsNumber
-      )
+      passaNoCartao = paidAmount
 
-      taxValue = arredondarParaDuasCasas(
-        grossAmount - data.amount
-      )
-
-      recivedAmount = data.amount
 
     } else {
       // Usuário informa quanto vai passar no cartão
-      grossAmount = data.amount
+      
+      valorRecebido = valorCalculo - taxaCalculada
 
-      installmentAmount = arredondarParaDuasCasas(
-        grossAmount / data.installmentsNumber
+      valorParcelas = arredondarParaDuasCasas(
+        valorCalculo / data.installmentsNumber
       )
 
-      recivedAmount = arredondarParaDuasCasas(
-        grossAmount * (1 - taxRate)
-      )
-
-      taxValue = arredondarParaDuasCasas(
-        grossAmount - recivedAmount
-      )
+      passaNoCartao = valorCalculo
     }
 
     return {
       amount: data.amount,
       installmentNumber: data.installmentsNumber,
-      installmentAmount,
+      installmentAmount: valorParcelas,
       taxPercentage,
-      taxValue,
-      recivedAmount
+      tax: taxRateFormatted,
+      taxaCalculada,
+      passaNoCartao,
+      receivedAmount: valorRecebido
     }
   }
 }
