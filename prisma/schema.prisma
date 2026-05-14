@@ -12,8 +12,10 @@ model User {
   email                 String      @unique
   password              String
   name                  String
+
   role                  UserRole
   status                UserStatus  @default(ACTIVE)
+  
   create_at DateTime    @default(now())
   update_at DateTime    @updatedAt
 }
@@ -33,6 +35,26 @@ model Tax {
   update_at             DateTime  @updatedAt
 }
 
+model Log {
+  id                    String    @id @default(uuid())
+
+  table_name            String
+  record_id             String
+
+  user_id               String?
+
+  action                LogAction
+
+  old_values            Json?
+  new_values            Json?
+
+  timestamp             DateTime  @default(now())
+
+  @@index([table_name])
+  @@index([record_id])
+  @@index([user_id])
+  @@index([timestamp])
+}
 
 enum UserRole {
   ADMIN
@@ -57,4 +79,10 @@ enum CardFlag {
 enum TaxType {
   LIBERADO
   LIMITE
+}
+
+enum LogAction {
+  CREATE
+  UPDATE
+  DELETE
 }

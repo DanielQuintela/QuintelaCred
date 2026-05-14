@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts",
     "dbupload": "npx prisma migrate dev --name",
-    "dbsync": "npx prisma migrate deploy"
+    "dbsync": "npx prisma migrate deploy && npx prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
