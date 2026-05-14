@@ -12,7 +12,8 @@ export class TaxRepository {
   async findMany() {
     return prisma.tax.findMany({
       orderBy: {
-        installmentsNumber: 'asc'
+        installments_number
+        : 'asc'
       }
     })
   }
@@ -26,10 +27,10 @@ export class TaxRepository {
   async findExisting(data: GetTaxData) {
     return prisma.tax.findFirst({
       where: {
-        installmentsNumber: data.installmentsNumber,
-        cardFlag: data.cardFlag,
+        installments_number: data.installments_number,
+        card_flag: data.card_flag,
         type: data.type,
-        bankName: data.bankName
+        bank_name: data.bank_name
       }
     })
   }

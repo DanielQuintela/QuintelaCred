@@ -8,30 +8,31 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  password  String
-  name      String
-  role      UserRole
-  status    UserStatus @default(ACTIVE)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id                    String      @id @default(uuid())
+  email                 String      @unique
+  password              String
+  name                  String
+  role                  UserRole
+  status                UserStatus  @default(ACTIVE)
+  create_at DateTime    @default(now())
+  update_at DateTime    @updatedAt
 }
 
 model Tax {
-  id                 String    @id @default(uuid())
-  installmentsNumber Int
-  value              Decimal   @db.Decimal(10, 5)
+  id                    String    @id @default(uuid())
+  installments_number   Int
+  value                 Decimal   @db.Decimal(10, 5)
 
-  cardFlag           CardFlag
-  type               TaxType
-  bankName           String?
+  card_flag             CardFlag
+  type                  TaxType
+  bank_name             String?
 
-  description        String?
+  description           String?
 
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  create_at             DateTime  @default(now())
+  update_at             DateTime  @updatedAt
 }
+
 
 enum UserRole {
   ADMIN
