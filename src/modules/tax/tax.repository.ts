@@ -5,7 +5,14 @@ import { prisma } from '../../infra/lib/prisma'
 export class TaxRepository {
   async create(data: CreateTaxData) {
     return prisma.tax.create({
-      data
+      data: {
+        installments_number: data.installmentsNumber,
+        value: data.value,
+        card_flag: data.cardFlag,
+        type: data.type,
+        description: data.description,
+        bank_name: data.bankName
+      }
     })
   }
 
@@ -27,10 +34,10 @@ export class TaxRepository {
   async findExisting(data: GetTaxData) {
     return prisma.tax.findFirst({
       where: {
-        installments_number: data.installments_number,
-        card_flag: data.card_flag,
+        installments_number: data.installmentsNumber,
+        card_flag: data.cardFlag,
         type: data.type,
-        bank_name: data.bank_name
+        bank_name: data.bankName
       }
     })
   }
