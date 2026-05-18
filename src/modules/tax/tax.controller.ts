@@ -10,7 +10,7 @@ export class TaxController {
   create = async (req: Request, res: Response) => {
     const body: CreateTaxData = req.body
 
-    const tax = await service.create(body)
+    const tax = await service.create(body, req)
 
     return res.status(201).json(tax)
   }
