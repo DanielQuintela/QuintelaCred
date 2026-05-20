@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { ResponseError } from '.'
 import { TokenPayload } from '../@types/auth.type'
+import { prisma } from '../infra/lib/prisma'
 
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -25,10 +26,27 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
   }
 }
 
-export function adminMiddleware(req: Request, res: Response, next: NextFunction) {
-  if (req.user.userRole !== 'ADMIN') {
-    throw new ResponseError('Unauthorized', 403)
+export async function adminMiddleware(req: Request, res: Response, next: NextFunction) {
+
+   const userId = req.user.userId
+
+   const user = await prisma.user.findUnique({
+    where: {
+      id: userId
+    }
+   })
+
+   if (!user) {
+    throw new ResponseError('User not found', 404)
   }
+
+   if (user.role !== 'ADMIN') {
+     throw new ResponseError('Unauthorized', 403)
+   }
+
+   if (user.status !== 'ACTIVE') {
+     throw new ResponseError('User inactive', 403)
+   }
 
   next()
 }
