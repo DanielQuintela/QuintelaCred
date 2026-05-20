@@ -16,7 +16,6 @@ export class TaxService {
       )
     }
 
-    console.log(req.user)
     const tax = await taxRepository.create(data)
 
     createAuditLog({
