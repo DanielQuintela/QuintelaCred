@@ -10,10 +10,10 @@ const repository = new TaxRepository()
 export class SimulationService {
   async simulate(data: SimulateData): Promise<SimulationResult> {
     const tax = await repository.findExisting({
-      installments_number: data.installmentsNumber,
-      card_flag: data.cardFlag,
+      installmentsNumber: data.installmentsNumber,
+      cardFlag: data.cardFlag,
       type: data.type,
-      bank_name: data.bankName
+      bankName: data.bankName
     })
 
     if (!tax) {

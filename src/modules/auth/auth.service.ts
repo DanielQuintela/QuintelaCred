@@ -68,4 +68,17 @@ export class AuthService {
 
     return { token }
   }
+
+  async FindMe(userId: string){
+    return await prisma.user.findUnique({
+      where: {
+        id: userId
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      }
+    })
+  }
 }

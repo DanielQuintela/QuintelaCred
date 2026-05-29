@@ -15,4 +15,10 @@ export class AuthController {
 
       return res.status(200).send({data:result, message:'Login successful', success:true})
   }
+
+  async findMe(req: Request, res: Response) {
+    const user = await authService.FindMe(req.user.userId)
+    return res.status(200).send({data:user, message:'User found', success:true})
+  }
+
 }
