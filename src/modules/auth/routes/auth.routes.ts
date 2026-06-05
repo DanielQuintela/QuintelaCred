@@ -9,6 +9,6 @@ const controller = new AuthController()
 
 router.post('/register', validateDto(registerSchema), controller.register)
 router.post('/login', validateDto(loginSchema), controller.login)
-router.get('/me', authMiddleware, controller.findMe)
+router.get('/user', authMiddleware, controller.findMe)
 
 export { router as authRoutes }
