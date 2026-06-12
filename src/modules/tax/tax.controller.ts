@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { TaxService } from './tax.service'
 
 import {CreateTaxData, GetTaxData, UpdateTaxData} from '../../@types/tax.type'
+import { taxMapper } from '../../infra/mappers/tax.mapper'
 
 const service = new TaxService()
 
@@ -18,7 +19,9 @@ export class TaxController {
   findMany = async (_req: Request, res: Response) => {
     const taxes = await service.findMany()
 
-    return res.json(taxes)
+   return res.json (
+    taxes.map(taxMapper)
+  )
   }
 
   findById = async (req: Request, res: Response) => {
