@@ -11,9 +11,9 @@ const router = Router()
 
 const controller = new TaxController()
 
-router.post('/create',   authMiddleware, adminMiddleware, validateDto(createTaxSchema), controller.create)
-router.get('/find',    authMiddleware, controller.findMany)
-router.get('/find-existing', authMiddleware, controller.findExisting)
+router.post('/',   authMiddleware, adminMiddleware, validateDto(createTaxSchema), controller.create)
+router.get('/',    authMiddleware, controller.findMany)
+router.get('/find', authMiddleware, controller.findExisting)
 router.put('/update',    authMiddleware, adminMiddleware, validateDto(updateTaxSchema), controller.update)
 router.delete('/delete', authMiddleware, adminMiddleware, controller.delete)
 
