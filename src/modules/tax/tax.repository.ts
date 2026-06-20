@@ -42,10 +42,17 @@ export class TaxRepository {
     })
   }
 
-  async update(id: string, data: UpdateTaxData) {
-    return prisma.tax.update({
-      where: { id },
-      data
+ async update(id: string, data: UpdateTaxData) {
+  return prisma.tax.update({
+    where: { id },
+      data: {
+        installments_number: data.installmentsNumber,
+        value: data.value,
+        card_flag: data.cardFlag,
+        type: data.type,
+        bank_name: data.bankName,
+        description: data.description,
+      },
     })
   }
 
