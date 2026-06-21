@@ -17,7 +17,7 @@ export class SimulationService {
     })
 
     if (!tax) {
-      throw new ResponseError('Tax not found', 404)
+      throw new ResponseError('Taxa não encontrada', 404)
     }
 
     let valorParcelas: number
@@ -26,7 +26,7 @@ export class SimulationService {
 
     const taxPercentage = Number(tax.value)
     const taxRate = taxPercentage / 100
-    const taxRateFormatted = Number((taxPercentage / 100).toFixed(4))
+    const taxRateFormated = Number((taxPercentage / 100).toFixed(4))
 
     let valorCalculo = data.amount
     let taxaCalculada = arredondarParaDuasCasas(
@@ -64,7 +64,7 @@ export class SimulationService {
       installmentNumber: data.installmentsNumber,
       installmentAmount: valorParcelas,
       taxPercentage,
-      tax: taxRateFormatted,
+      tax: taxRateFormated,
       taxaCalculada,
       passaNoCartao,
       receivedAmount: valorRecebido
