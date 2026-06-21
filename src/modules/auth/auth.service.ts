@@ -14,7 +14,7 @@ export class AuthService {
     })
 
     if (userExists) {
-      throw new ResponseError('User already exists', 409)
+      throw new ResponseError('Usuário já existe', 409)
     }
 
     const hashedPassword = await bcrypt.hash(password, 8)
@@ -43,7 +43,7 @@ export class AuthService {
     })
 
     if (!user) {
-       throw new ResponseError('Invalid credentials', 401)
+       throw new ResponseError('Credenciais inválidas', 401)
     }
 
     if (user.status !== 'ACTIVE') {
@@ -53,7 +53,7 @@ export class AuthService {
     const passwordMatch = await bcrypt.compare(password, user.password)
 
     if (!passwordMatch) {
-      throw new ResponseError('Invalid credentials', 401)
+      throw new ResponseError('Credenciais inválidas', 401)
     }
 
     if (!process.env.JWT_SECRET) {
@@ -75,9 +75,10 @@ export class AuthService {
         id: userId
       },
       select: {
-        id: true,
         name: true,
         email: true,
+        role: true,
+        status: true
       }
     })
   }

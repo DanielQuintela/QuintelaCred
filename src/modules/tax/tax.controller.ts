@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { TaxService } from './tax.service'
 
 import {CreateTaxData, GetTaxData, UpdateTaxData} from '../../@types/tax.type'
+import { taxMapper } from '../../infra/mappers/tax.mapper'
 
 const service = new TaxService()
 
@@ -10,6 +11,7 @@ export class TaxController {
   create = async (req: Request, res: Response) => {
     const body: CreateTaxData = req.body
 
+    console.log('Creating tax with data:', body)
     const tax = await service.create(body)
 
     return res.status(201).json(tax)
@@ -18,7 +20,9 @@ export class TaxController {
   findMany = async (_req: Request, res: Response) => {
     const taxes = await service.findMany()
 
-    return res.json(taxes)
+   return res.json (
+    taxes.map(taxMapper)
+  )
   }
 
   findById = async (req: Request, res: Response) => {
@@ -26,7 +30,7 @@ export class TaxController {
 
     const tax = await service.findById(id)
 
-    return res.json(tax)
+    return res.json(taxMapper(tax))
   }
 
   findExisting = async (req: Request, res: Response) => {
@@ -38,7 +42,7 @@ export class TaxController {
   }
 
   update = async (req: Request, res: Response) => {    
-    const id = req.query.id as string
+    const id = req.params.id as string
     const body: UpdateTaxData = req.body
 
     const tax = await service.update(id, body)
@@ -47,7 +51,7 @@ export class TaxController {
   }
 
   delete = async (req: Request, res: Response) => {
-    const id = req.query.id as string
+    const id = req.params.id as string
 
     await service.delete(id)
 
