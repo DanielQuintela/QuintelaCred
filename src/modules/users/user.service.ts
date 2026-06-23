@@ -48,13 +48,15 @@ export class UserService {
         await repository.delete(id)
     }
 
-    async updateStatus(id: string, status: "ACTIVE" | "INACTIVE") {
+    async updateStatus(id: string,) {
         const user = await repository.findById(id)
 
         if (!user) {
             throw new Error('Usuário não encontrado')
         }
 
-        return repository.updateStatus(id, status)
+        user.status = user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"
+
+        return repository.updateStatus(id, user.status)
     }
 }
