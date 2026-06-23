@@ -47,7 +47,7 @@ export class AuthService {
     }
 
     if (user.status !== 'ACTIVE') {
-      throw new ResponseError('User inactive', 401)
+      throw new ResponseError('Usuário inativo', 401)
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password)
