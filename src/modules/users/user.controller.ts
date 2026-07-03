@@ -5,12 +5,6 @@ import { userMapper } from "../../infra/mappers/user.mapper";
 const service = new UserService()
 
 export class UserController {
-    async create(req: Request, res: Response) {
-        const data = req.body
-        const user = await service.create(data)
-
-        return res.status(201).json(userMapper(user))
-    }
 
     async findMany(_req: Request, res: Response) {
         const users = await service.findMany()

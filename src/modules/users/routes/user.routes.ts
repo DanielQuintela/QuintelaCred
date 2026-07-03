@@ -8,9 +8,9 @@ const router = Router()
 
 const controller = new UserController()
 
-router.post('/',   authMiddleware, adminMiddleware, validateDto(createUserSchema), controller.create)
 router.get('/',    authMiddleware, adminMiddleware, controller.findMany)
 router.get('/:id', authMiddleware, adminMiddleware, controller.findById)
+//TODO: PRECISO REVOMER A SENHA DA CHAMADA DESSA REQUISIÇÃO
 router.put('/:id', authMiddleware, adminMiddleware, validateDto(createUserSchema), controller.update)
 router.delete('/:id', authMiddleware, adminMiddleware, controller.delete)
 router.patch('/:id/status', authMiddleware, adminMiddleware, controller.updateStatus)
