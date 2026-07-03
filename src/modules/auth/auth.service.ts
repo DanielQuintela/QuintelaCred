@@ -7,7 +7,7 @@ import { LoginData, RegisterData } from '../../@types/auth.type'
 
 export class AuthService {
   async register(data: RegisterData) {
-    const { name, email, password } = data
+    const { name, email, password, role, status } = data
     
     const userExists = await prisma.user.findUnique({
       where: { email }
@@ -24,7 +24,8 @@ export class AuthService {
         name,
         email,
         password: hashedPassword,
-        role: 'USER'
+        role: role,
+        status: status
       }
     })
 

@@ -20,5 +20,17 @@ export class AuthController {
     const user = await authService.FindMe(req.user.userId)
     return res.status(200).send({data:user, message:'User found', success:true})
   }
+  
+  async registerAdmin(req: Request, res: Response) {
+      const { key } = req.body
+
+      if (key !== process.env.ADMIN_KEY) {
+        return res.status(403).send({message:'Chave de administrador inválida', success:false})
+      }
+
+      const user = await authService.register(req.body)
+      
+      return res.status(201).send({data:user, message:'Administrador cadastrado com sucesso', success:true})
+  }
 
 }
