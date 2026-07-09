@@ -85,4 +85,5 @@ enum LogAction {
   CREATE
   UPDATE
   DELETE
+  UPDATE_STATUS
 }
