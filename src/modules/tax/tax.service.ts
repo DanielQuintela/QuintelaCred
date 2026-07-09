@@ -12,7 +12,7 @@ export class TaxService {
     
     if (taxExists) {
       throw new ResponseError(
-        'Tax already exists for this configuration', 409
+        'Já existe uma taxa cadastrada para esta configuração', 409
       )
     }
 
@@ -38,7 +38,7 @@ export class TaxService {
     const tax = await taxRepository.findById(id)
 
     if (!tax) {
-      throw new ResponseError('Tax not found', 404)
+      throw new ResponseError('Taxa não encontrada', 404)
     }
 
     return tax
@@ -52,7 +52,7 @@ export class TaxService {
     const taxExists = await taxRepository.findById(id)
 
     if (!taxExists) {
-      throw new ResponseError('Tax not found', 404)
+      throw new ResponseError('Taxa não encontrada', 404)
     }
 
     return taxRepository.update(id, data)
@@ -62,7 +62,7 @@ export class TaxService {
     const taxExists = await taxRepository.findById(id)
 
     if (!taxExists) {
-      throw new ResponseError('Tax not found', 404)
+      throw new ResponseError('Taxa não encontrada', 404)
     }
 
     await taxRepository.delete(id)

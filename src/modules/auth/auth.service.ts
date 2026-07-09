@@ -7,14 +7,14 @@ import { LoginData, RegisterData } from '../../@types/auth.type'
 
 export class AuthService {
   async register(data: RegisterData) {
-    const { name, email, password } = data
+    const { name, email, password, role, status } = data
     
     const userExists = await prisma.user.findUnique({
       where: { email }
     })
 
     if (userExists) {
-      throw new ResponseError('User already exists', 409)
+      throw new ResponseError('Usuário já existe', 409)
     }
 
     const hashedPassword = await bcrypt.hash(password, 8)
@@ -24,7 +24,8 @@ export class AuthService {
         name,
         email,
         password: hashedPassword,
-        role: 'USER'
+        role: role,
+        status: status
       }
     })
 
@@ -43,17 +44,17 @@ export class AuthService {
     })
 
     if (!user) {
-       throw new ResponseError('Invalid credentials', 401)
+       throw new ResponseError('Credenciais inválidas', 401)
     }
 
     if (user.status !== 'ACTIVE') {
-      throw new ResponseError('User inactive', 401)
+      throw new ResponseError('Usuário inativo', 401)
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password)
 
     if (!passwordMatch) {
-      throw new ResponseError('Invalid credentials', 401)
+      throw new ResponseError('Credenciais inválidas', 401)
     }
 
     if (!process.env.JWT_SECRET) {
@@ -61,11 +62,25 @@ export class AuthService {
     }
 
     const token = jwt.sign(
-      { userId: user.id, userEmail: user.email, userName: user.name, userRole: user.role },
+      { userId: user.id, userEmail: user.email, userName: user.name },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     )
 
     return { token }
+  }
+
+  async FindMe(userId: string){
+    return await prisma.user.findUnique({
+      where: {
+        id: userId
+      },
+      select: {
+        name: true,
+        email: true,
+        role: true,
+        status: true
+      }
+    })
   }
 }

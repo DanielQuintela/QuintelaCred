@@ -10,14 +10,14 @@ const repository = new TaxRepository()
 export class SimulationService {
   async simulate(data: SimulateData): Promise<SimulationResult> {
     const tax = await repository.findExisting({
-      installments_number: data.installmentsNumber,
-      card_flag: data.cardFlag,
+      installmentsNumber: data.installmentsNumber,
+      cardFlag: data.cardFlag,
       type: data.type,
-      bank_name: data.bankName
+      bankName: data.bankName
     })
 
     if (!tax) {
-      throw new ResponseError('Tax not found', 404)
+      throw new ResponseError('Taxa não encontrada', 404)
     }
 
     let valorParcelas: number
@@ -26,7 +26,7 @@ export class SimulationService {
 
     const taxPercentage = Number(tax.value)
     const taxRate = taxPercentage / 100
-    const taxRateFormatted = Number((taxPercentage / 100).toFixed(4))
+    const taxRateFormated = Number((taxPercentage / 100).toFixed(4))
 
     let valorCalculo = data.amount
     let taxaCalculada = arredondarParaDuasCasas(
@@ -64,7 +64,7 @@ export class SimulationService {
       installmentNumber: data.installmentsNumber,
       installmentAmount: valorParcelas,
       taxPercentage,
-      tax: taxRateFormatted,
+      tax: taxRateFormated,
       taxaCalculada,
       passaNoCartao,
       receivedAmount: valorRecebido
