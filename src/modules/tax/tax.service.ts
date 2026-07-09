@@ -48,17 +48,28 @@ export class TaxService {
     return taxRepository.findExisting(data)
   }
 
-  async update(id: string, data: UpdateTaxData) {
+  async update(id: string, data: UpdateTaxData, req: any) {
     const taxExists = await taxRepository.findById(id)
 
     if (!taxExists) {
       throw new ResponseError('Taxa não encontrada', 404)
     }
 
-    return taxRepository.update(id, data)
+    const tax = await taxRepository.update(id, data)
+    
+    createAuditLog({
+      table_name: 'tax',
+      record_id: taxExists.id,
+      action: 'UPDATE',
+      user_id: req.user.userId,
+      old_values: taxExists,
+      new_values: data
+    })
+
+    return tax
   }
 
-  async delete(id: string) {
+  async delete(id: string, req: any) {
     const taxExists = await taxRepository.findById(id)
 
     if (!taxExists) {
@@ -66,5 +77,14 @@ export class TaxService {
     }
 
     await taxRepository.delete(id)
+
+    createAuditLog({
+      table_name: 'tax',
+      record_id: taxExists.id,
+      action: 'DELETE',
+      user_id: req.user.userId,
+      old_values: taxExists,
+      new_values: null
+    })
   }
 }
