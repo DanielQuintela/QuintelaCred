@@ -23,11 +23,18 @@ export class SimulationService {
     let valorParcelas: number
     let valorRecebido: number
     let passaNoCartao: number
+    let taxPercentage = Number(tax.value)
 
-    const taxPercentage = Number(tax.value)
+    if (taxPercentage >= 1) {
+      taxPercentage = taxPercentage / 100
+    }
+
     const taxRateFormated = Number((taxPercentage).toFixed(6))
     const parcelas = data.installmentsNumber
     const taxPercentageFormated = Number((taxPercentage * 100).toFixed(2))
+
+  
+    console.log('Taxa formatada:', taxRateFormated)
 
     let valorCalculo = data.amount
     let taxaCalculada = arredondarParaDuasCasas(
