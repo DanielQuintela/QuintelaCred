@@ -25,12 +25,13 @@ export class SimulationService {
     let passaNoCartao: number
 
     const taxPercentage = Number(tax.value)
-    const taxRate = taxPercentage / 100
-    const taxRateFormated = Number((taxPercentage / 100).toFixed(4))
+    const taxRateFormated = Number((taxPercentage).toFixed(6))
+    const parcelas = data.installmentsNumber
+    const taxPercentageFormated = Number((taxPercentage * 100).toFixed(2))
 
     let valorCalculo = data.amount
     let taxaCalculada = arredondarParaDuasCasas(
-      valorCalculo * taxRate
+      valorCalculo * taxRateFormated
     )
 
     if (tax.type === 'LIBERADO') {
@@ -41,11 +42,10 @@ export class SimulationService {
       const paidAmount = taxaCalculada + valorCalculo
 
       valorParcelas = arredondarParaDuasCasas(
-        paidAmount / data.installmentsNumber
+        paidAmount / parcelas
       )
 
       passaNoCartao = paidAmount
-
 
     } else {
       // Usuário informa quanto vai passar no cartão
@@ -53,7 +53,7 @@ export class SimulationService {
       valorRecebido = valorCalculo - taxaCalculada
 
       valorParcelas = arredondarParaDuasCasas(
-        valorCalculo / data.installmentsNumber
+        valorCalculo / parcelas
       )
 
       passaNoCartao = valorCalculo
@@ -61,9 +61,9 @@ export class SimulationService {
 
     return {
       amount: data.amount,
-      installmentNumber: data.installmentsNumber,
+      installmentNumber: parcelas,
       installmentAmount: valorParcelas,
-      taxPercentage,
+      taxPercentage: taxPercentageFormated,
       tax: taxRateFormated,
       taxaCalculada,
       passaNoCartao,
