@@ -5,7 +5,7 @@ const authService = new AuthService()
 
 export class AuthController {
   async register(req: Request, res: Response) {
-      const user = await authService.register(req.body)
+      const user = await authService.register(req.body, req.user.userId)
 
       return res.status(201).send({data:user, message:'Usuario cadastrado com sucesso', success:true})
   }
@@ -28,7 +28,7 @@ export class AuthController {
         return res.status(403).send({message:'Chave de administrador inválida', success:false})
       }
 
-      const user = await authService.register(req.body)
+      const user = await authService.register(req.body, req.user.userId)
       
       return res.status(201).send({data:user, message:'Administrador cadastrado com sucesso', success:true})
   }

@@ -2,17 +2,6 @@ import { CreateUserData } from "../../@types/user.type";
 import { prisma } from "../../infra/lib/prisma";
 
 export class UserRepository {
-    async create(data: CreateUserData) {
-        return prisma.user.create({
-            data: {
-                email: data.email,
-                password: data.password,
-                name: data.name,
-                role: data.role,
-                status: data.status,
-            }
-        });
-    }
 
     async findByEmail(email: string) {
         return prisma.user.findUnique({
@@ -31,7 +20,6 @@ export class UserRepository {
             where: { id },
             data: {
                 email: data.email,
-                password: data.password,
                 name: data.name,
                 role: data.role,
                 status: data.status,
@@ -58,6 +46,15 @@ export class UserRepository {
             where: { id },
             data: {
                 status: status
+            }
+        });
+    }
+
+    async updatePassword(id: string, newPassword: string) {
+        return prisma.user.update({
+            where: { id },
+            data: {
+                password: newPassword
             }
         });
     }
