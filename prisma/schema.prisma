@@ -80,7 +80,11 @@ model Simulation {
   created_at            DateTime @default(now())
 
   @@index([user_id])
+  @@index([status])
   @@index([created_at])
+  @@index([card_flag])
+  @@index([type])
+  @@index([status, created_at])
 }
 
 enum UserRole {
