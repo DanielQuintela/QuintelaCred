@@ -56,6 +56,33 @@ model Log {
   @@index([timestamp])
 }
 
+model Simulation {
+  id                    String    @id @default(uuid())
+
+  user_id               String?
+
+  amount                Decimal   @db.Decimal(10, 2)
+
+  card_flag             CardFlag
+  type                  TaxType
+  bank_name             String?
+
+  installments_number   Int
+
+  status                SimulationStatus @default(SIMULATED)
+  tax_percentage        Decimal   @db.Decimal(10, 5)
+
+  receivedAmount        Decimal   @db.Decimal(10, 2)
+  installment_amount    Decimal   @db.Decimal(10, 2)
+  received_amount       Decimal   @db.Decimal(10, 2)
+  card_amount           Decimal   @db.Decimal(10, 2)
+
+  created_at            DateTime @default(now())
+
+  @@index([user_id])
+  @@index([created_at])
+}
+
 enum UserRole {
   ADMIN
   USER
@@ -86,4 +113,10 @@ enum LogAction {
   UPDATE
   DELETE
   UPDATE_STATUS
+}
+
+enum SimulationStatus {
+  SIMULATED
+  CONVERTED
+  CANCELLED
 }
