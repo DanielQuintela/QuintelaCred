@@ -1,5 +1,6 @@
 import { CreateUserData } from "../../@types/user.type";
 import { createAuditLog } from "../../infra/shared/utils/audit";
+import { ResponseError } from "../../middlewares";
 import { UserRepository } from "./user.repository";
 import bcrypt from 'bcryptjs'
 
@@ -15,7 +16,7 @@ export class UserService {
     async findById(id: string) {
         const user = await repository.findById(id)
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }
 
         return user
@@ -25,7 +26,7 @@ export class UserService {
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }
 
         const updatedUser = await repository.update(id, data)
@@ -46,7 +47,7 @@ export class UserService {
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }   
 
         await repository.delete(id)
@@ -65,7 +66,7 @@ export class UserService {
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }
 
         user.status = user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"
@@ -84,11 +85,17 @@ export class UserService {
         return updatedUser
     }
 
-    async updatePassword(id: string, newPassword: string, userId: string) {
+    async updatePassword(id: string, newPassword: string, currentPassword: string, userId: string) {
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password)
+
+        if (!isMatch) {
+            throw new ResponseError('Senha atual incorreta')
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 8)

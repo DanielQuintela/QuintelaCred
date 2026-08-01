@@ -43,15 +43,12 @@ export class UserController {
         return res.json(userMapper(user))
     }
 
-    //TODO: VER SE PRECISO VALIDAR A SENHA ANTIGA AQUI TAMBÉM, OU SE ISSO É APENAS FEITO NO FRONTEND
     async updatePassword(req: Request, res: Response) {
         const id = req.params.id as string
-        const { newPassword } = req.body
+        const { newPassword, currentPassword } = req.body
         let userId = req.user.userId
-        if(!userId)  {
-            userId = "recuperacaoViaEmail"
-        }
-        const user = await service.updatePassword(id, newPassword, userId)
+
+        const user = await service.updatePassword(id, newPassword, currentPassword, userId)
 
         return res.json(userMapper(user))
     }

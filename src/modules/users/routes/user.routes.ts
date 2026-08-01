@@ -14,6 +14,6 @@ router.get('/:id', authMiddleware, adminMiddleware, controller.findById)
 router.put('/:id', authMiddleware, adminMiddleware, validateDto(createUserSchema), controller.update)
 router.delete('/:id', authMiddleware, adminMiddleware, controller.delete)
 router.patch('/:id/status', authMiddleware, adminMiddleware, controller.updateStatus)
-router.patch('/:id/password', controller.updatePassword)
+router.patch('/:id/password', authMiddleware, controller.updatePassword)
 
 export { router as userRoutes }
