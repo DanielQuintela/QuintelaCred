@@ -55,6 +55,14 @@ export class TaxService {
       throw new ResponseError('Taxa não encontrada', 404)
     }
 
+     const taxSameExists = await taxRepository.findExisting(data)
+    
+    if (taxSameExists) {
+      throw new ResponseError(
+        'Já existe uma taxa cadastrada para esta configuração', 409
+      )
+    }
+
     const tax = await taxRepository.update(id, data)
     
     createAuditLog({
