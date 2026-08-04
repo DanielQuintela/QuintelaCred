@@ -22,21 +22,33 @@ export class UserController {
         console.log("updating user", req.params.id, req.body)
         const id = req.params.id as string
         const data = req.body
-        const user = await service.update(id, data)
+        const user = await service.update(id, data, req.user.userId)
 
         return res.json(userMapper(user))
     }
 
     async delete(req: Request, res: Response) {
         const id = req.params.id as string
-        await service.delete(id)
+        await service.delete(id, req.user.userId)
 
         return res.status(204).end()
     }
 
     async updateStatus(req: Request, res: Response) {
         const id = req.params.id as string
-        const user = await service.updateStatus(id)
+        let userId = req.user.userId
+    
+        const user = await service.updateStatus(id, userId)
+
+        return res.json(userMapper(user))
+    }
+
+    async updatePassword(req: Request, res: Response) {
+        const id = req.params.id as string
+        const { newPassword, currentPassword } = req.body
+        let userId = req.user.userId
+
+        const user = await service.updatePassword(id, newPassword, currentPassword, userId)
 
         return res.json(userMapper(user))
     }

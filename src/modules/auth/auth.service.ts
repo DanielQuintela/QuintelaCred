@@ -3,10 +3,11 @@ import jwt from 'jsonwebtoken'
 import { prisma } from '../../infra/lib/prisma'
 import { ResponseError } from '../../middlewares'
 import { LoginData, RegisterData } from '../../@types/auth.type'
+import { createAuditLog } from '../../infra/shared/utils/audit'
 
 
 export class AuthService {
-  async register(data: RegisterData) {
+  async register(data: RegisterData, userId: string) {
     const { name, email, password, role, status } = data
     
     const userExists = await prisma.user.findUnique({
@@ -28,6 +29,15 @@ export class AuthService {
         status: status
       }
     })
+
+    createAuditLog({
+        table_name: 'user',
+        record_id: user.id,
+        action: 'CREATE',
+        user_id: userId,
+        old_values: null,
+        new_values: data
+        })
 
     return {
       id: user.id,
@@ -64,7 +74,7 @@ export class AuthService {
     const token = jwt.sign(
       { userId: user.id, userEmail: user.email, userName: user.name },
       process.env.JWT_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: '7d' }
     )
 
     return { token }
@@ -76,6 +86,7 @@ export class AuthService {
         id: userId
       },
       select: {
+        id: true,
         name: true,
         email: true,
         role: true,

@@ -1,20 +1,14 @@
 import { CreateUserData } from "../../@types/user.type";
+import { createAuditLog } from "../../infra/shared/utils/audit";
+import { ResponseError } from "../../middlewares";
 import { UserRepository } from "./user.repository";
+import bcrypt from 'bcryptjs'
 
 
 const repository = new UserRepository()
 
 export class UserService {
-    async create(data: CreateUserData) {
-        const userExists = await repository.findByEmail(data.email)
-
-        if (userExists) {
-            throw new Error('Já existe um usuário cadastrado com este e-mail')
-        }   
-
-        return repository.create(data)
-    }
-
+   
     async findMany() {
         return repository.findMany()
     }
@@ -22,41 +16,101 @@ export class UserService {
     async findById(id: string) {
         const user = await repository.findById(id)
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }
 
         return user
     }
 
-    async update(id: string, data: Partial<CreateUserData>) {   
+    async update(id: string, data: Partial<CreateUserData>, userId: string) {   
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }
 
-        return repository.update(id, data)
+        const updatedUser = await repository.update(id, data)
+
+        createAuditLog({
+            table_name: 'user',
+            record_id: updatedUser.id,
+            action: 'UPDATE',
+            user_id: userId,
+            old_values: user,
+            new_values: updatedUser
+        })
+
+        return updatedUser
     }
 
-    async delete(id: string) {
+    async delete(id: string, userId: string) {
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }   
 
         await repository.delete(id)
+
+        createAuditLog({
+            table_name: 'user',
+            record_id: user.id,
+            action: 'DELETE',
+            user_id: userId,
+            old_values: user,
+            new_values: null
+        })
     }
 
-    async updateStatus(id: string,) {
+    async updateStatus(id: string, userId: string) {
         const user = await repository.findById(id)
 
         if (!user) {
-            throw new Error('Usuário não encontrado')
+            throw new ResponseError('Usuário não encontrado')
         }
 
         user.status = user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"
 
-        return repository.updateStatus(id, user.status)
+        const updatedUser = await repository.updateStatus(id, user.status)
+
+        createAuditLog({
+            table_name: 'user',
+            record_id: user.id,
+            action: 'UPDATE_STATUS',
+            user_id: userId,
+            old_values: user,
+            new_values: { ...user, status: user.status }
+        })
+
+        return updatedUser
+    }
+
+    async updatePassword(id: string, newPassword: string, currentPassword: string, userId: string) {
+        const user = await repository.findById(id)
+
+        if (!user) {
+            throw new ResponseError('Usuário não encontrado')
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password)
+
+        if (!isMatch) {
+            throw new ResponseError('Senha atual incorreta')
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 8)
+
+        const updatedUser = await repository.updatePassword(id, hashedPassword)
+
+        createAuditLog({
+            table_name: 'user',
+            record_id: user.id,
+            action: 'UPDATE',
+            user_id: userId,
+            old_values: user,
+            new_values: updatedUser
+        })
+
+        return updatedUser
     }
 }
