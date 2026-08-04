@@ -12,7 +12,7 @@ export class TaxController {
     const body: CreateTaxData = req.body
 
     console.log('Creating tax with data:', body)
-    const tax = await service.create(body)
+    const tax = await service.create(body, req)
 
     return res.status(201).json(tax)
   }
@@ -45,7 +45,7 @@ export class TaxController {
     const id = req.params.id as string
     const body: UpdateTaxData = req.body
 
-    const tax = await service.update(id, body)
+    const tax = await service.update(id, body, req)
 
     return res.json(tax)
   }
@@ -53,7 +53,7 @@ export class TaxController {
   delete = async (req: Request, res: Response) => {
     const id = req.params.id as string
 
-    await service.delete(id)
+    await service.delete(id, req)
 
     return res.status(204).send()
   }

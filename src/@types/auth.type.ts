@@ -2,7 +2,9 @@
 export interface RegisterData {
     name: string,
     email: string,
-    password: string
+    password: string,
+    role: "ADMIN" | "USER",
+    status: "ACTIVE" | "INACTIVE"
 }
 
 
