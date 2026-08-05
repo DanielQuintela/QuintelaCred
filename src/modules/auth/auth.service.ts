@@ -40,8 +40,14 @@ export class AuthService {
         action: 'CREATE',
         user_id: userId,
         old_values: null,
-        new_values: data
-        })
+        new_values: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          status: user.status
+        }
+    })
 
     return {
       id: user.id,
