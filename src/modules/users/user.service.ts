@@ -48,7 +48,11 @@ export class UserService {
 
         if (!user) {
             throw new ResponseError('Usuário não encontrado')
-        }   
+        }
+        
+        if (userId === id) {
+            throw new ResponseError('Não é possível deletar o próprio usuário', 403)
+        }
 
         await repository.delete(id)
 
@@ -67,6 +71,10 @@ export class UserService {
 
         if (!user) {
             throw new ResponseError('Usuário não encontrado')
+        }
+
+        if (userId === id) {
+            throw new ResponseError('Não é possível alterar o status do próprio usuário', 403)
         }
 
         user.status = user.status === "ACTIVE" ? "INACTIVE" : "ACTIVE"
