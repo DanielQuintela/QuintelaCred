@@ -7,7 +7,7 @@ import { createAuditLog } from '../../infra/shared/utils/audit'
 
 
 export class AuthService {
-  async register(data: RegisterData, userId: string) {
+  async register(data: RegisterData, userId: string | undefined) {
     const { name, email, password, role, status } = data
     
     const userExists = await prisma.user.findUnique({
@@ -29,6 +29,10 @@ export class AuthService {
         status: status
       }
     })
+    
+    if(!userId){
+      userId = "system"
+    }
 
     createAuditLog({
         table_name: 'user',
