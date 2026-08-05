@@ -10,4 +10,5 @@ app.use(express.json())
 app.use(router)
 app.use(errorHandler)
 
+export default app // ✅ Exportação default necessária para a Vercel
 export { app }
