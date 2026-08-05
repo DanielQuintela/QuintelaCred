@@ -29,7 +29,7 @@ export class AuthService {
         status: status
       }
     })
-    
+
     if(!userId){
       userId = "system"
     }
@@ -76,9 +76,9 @@ export class AuthService {
     }
 
     const token = jwt.sign(
-      { userId: user.id, userEmail: user.email, userName: user.name },
+      { userId: user.id, userEmail: user.email, userName: user.name, userStatus: user.status },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '30d' }
     )
 
     return { token }
