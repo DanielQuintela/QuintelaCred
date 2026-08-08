@@ -29,6 +29,16 @@ export class LocationRepository {
         })
     }
 
+    async findExisting(data: RegisterLocationData) {
+        return prisma.location.findFirst({
+            where: {
+                name: data.name,
+                city: data.city,
+                state: data.state
+            }
+        })
+    }
+
     async update(id: string, data: RegisterLocationData) {
         return prisma.location.update({
             where: { id },
