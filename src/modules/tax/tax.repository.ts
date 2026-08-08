@@ -16,18 +16,37 @@ export class TaxRepository {
     })
   }
 
-  async findMany() {
-    return prisma.tax.findMany({
-      orderBy: {
-        installments_number
-        : 'asc'
-      }
-    })
-  }
+ async findMany() {
+  return prisma.tax.findMany({
+    orderBy: {
+      installments_number: 'asc',
+    },
+    include: {
+      location: {
+        select: {
+          id: true,
+          name: true,
+          city: true,
+          state: true,
+        },
+      },
+    },
+  })
+}
 
   async findById(id: string) {
     return prisma.tax.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        location: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            state: true,
+          },
+        },
+      },
     })
   }
 

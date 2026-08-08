@@ -16,8 +16,8 @@ model User {
   role                  UserRole
   status                UserStatus  @default(ACTIVE)
   
-  create_at DateTime    @default(now())
-  update_at DateTime    @updatedAt
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
 }
 
 model Tax {
@@ -31,8 +31,11 @@ model Tax {
 
   description           String?
 
-  create_at             DateTime  @default(now())
-  update_at             DateTime  @updatedAt
+  location_id           String?
+  location              Location?  @relation(fields: [location_id], references: [id], onDelete: Cascade)
+
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @updatedAt
 }
 
 model Log {
@@ -58,8 +61,11 @@ model Log {
 
 model Simulation {
   id                    String    @id @default(uuid())
-
+  
   user_id               String?
+
+  location_id           String?
+  location              Location?  @relation(fields: [location_id], references: [id], onDelete: SetNull)
 
   amount                Decimal   @db.Decimal(10, 2)
 
@@ -72,7 +78,6 @@ model Simulation {
   status                SimulationStatus @default(SIMULATED)
   tax_percentage        Decimal   @db.Decimal(10, 5)
 
-  receivedAmount        Decimal   @db.Decimal(10, 2)
   installment_amount    Decimal   @db.Decimal(10, 2)
   received_amount       Decimal   @db.Decimal(10, 2)
   card_amount           Decimal   @db.Decimal(10, 2)
@@ -85,6 +90,22 @@ model Simulation {
   @@index([card_flag])
   @@index([type])
   @@index([status, created_at])
+}
+
+model Location {
+  id          String        @id @default(uuid())
+  name        String       
+  city        String?      
+  state       String?      
+  is_active   Boolean       @default(true)
+
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+
+  taxes       Tax[]
+  simulations Simulation[]
+
+  @@unique([name, city]) // Evita duplicar o mesmo bairro na mesma cidade
 }
 
 enum UserRole {
@@ -104,6 +125,8 @@ enum CardFlag {
   AMEX
   DINERS
   HIPERCARD
+  VISAMASTER
+  ELODEMAISBANDEIRAS
   OUTROS
 }
 
