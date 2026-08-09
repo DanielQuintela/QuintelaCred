@@ -9,7 +9,8 @@ export const createTaxSchema = z.object({
 
   description: z.string().optional(),
 
-  bankName: z.string().optional()
+  bankName: z.string().optional(),
+  locationId: z.string().uuid()
 })
 
 export const updateTaxSchema = z.object({
@@ -21,7 +22,8 @@ export const updateTaxSchema = z.object({
 
   description: z.string().optional(),
 
-  bankName: z.string().optional()
+  bankName: z.string().optional(),
+  locationId: z.string().uuid()
 })
 
 

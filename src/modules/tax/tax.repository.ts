@@ -11,7 +11,8 @@ export class TaxRepository {
         card_flag: data.cardFlag,
         type: data.type,
         description: data.description,
-        bank_name: data.bankName
+        bank_name: data.bankName,
+        location_id: data.locationId
       }
     })
   }
@@ -37,7 +38,8 @@ export class TaxRepository {
         installments_number: data.installmentsNumber,
         card_flag: data.cardFlag,
         type: data.type,
-        bank_name: data.bankName
+        bank_name: data.bankName,
+        location_id: data.locationId
       }
     })
   }
@@ -52,6 +54,7 @@ export class TaxRepository {
         type: data.type,
         bank_name: data.bankName,
         description: data.description,
+        location_id: data.locationId
       },
     })
   }
