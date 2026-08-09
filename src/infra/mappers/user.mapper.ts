@@ -7,7 +7,7 @@ export function userMapper(user: User) {
         name: user.name,
         role: user.role,
         status: user.status,
-        createdAt: user.create_at,
-        updatedAt: user.update_at,
+        createdAt: user.created_at,
+        updatedAt: user.updated_at,
     }
 }
