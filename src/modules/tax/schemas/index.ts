@@ -10,7 +10,7 @@ export const createTaxSchema = z.object({
   description: z.string().optional(),
 
   bankName: z.string().optional(),
-  locationId: z.string().uuid()
+  locationId: z.string().uuid('ID de localidade inválido').nullable().optional(),
 })
 
 export const updateTaxSchema = z.object({
@@ -23,7 +23,7 @@ export const updateTaxSchema = z.object({
   description: z.string().optional(),
 
   bankName: z.string().optional(),
-  locationId: z.string().uuid()
+  locationId: z.string().uuid('ID de localidade inválido').nullable().optional(),
 })
 
 

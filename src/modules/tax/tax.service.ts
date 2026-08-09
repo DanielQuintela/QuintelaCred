@@ -8,6 +8,8 @@ const taxRepository = new TaxRepository()
 
 export class TaxService {
   async create(data: CreateTaxData, req: any) {
+    console.log("awui");
+    
     const taxExists = await taxRepository.findExisting(data)
     
     if (taxExists) {
