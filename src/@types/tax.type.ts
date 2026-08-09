@@ -2,7 +2,7 @@
 export interface CreateTaxData {
   installmentsNumber: number
   value: number
-  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS'
+  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS' | 'VISAMASTER' | 'ELODEMAISBANDEIRAS'
   type: 'LIBERADO' | 'LIMITE'
   description?: string
   bankName?: string
@@ -12,7 +12,7 @@ export interface CreateTaxData {
 export interface GetTaxData {
   installmentsNumber: number
   value?: number
-  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS'
+  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS' | 'VISAMASTER' | 'ELODEMAISBANDEIRAS'
   type: 'LIBERADO' | 'LIMITE'
   description?: string
   bankName?: string
@@ -23,7 +23,7 @@ export interface UpdateTaxData {
   id: string
   installmentsNumber: number
   value: number
-  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS'
+  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS' | 'VISAMASTER' | 'ELODEMAISBANDEIRAS'
   type: 'LIBERADO' | 'LIMITE'
   description?: string
   bankName?: string

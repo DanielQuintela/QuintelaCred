@@ -13,7 +13,8 @@ export class SimulationService {
       installmentsNumber: data.installmentsNumber,
       cardFlag: data.cardFlag,
       type: data.type,
-      bankName: data.bankName
+      bankName: data.bankName,
+      locationId: data.locationId
     })
 
     if (!tax) {

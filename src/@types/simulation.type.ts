@@ -2,9 +2,10 @@
 export interface SimulateData {
   amount: number
   installmentsNumber: number
-  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS'
+  cardFlag: 'MASTER' | 'VISA' | 'ELO' | 'AMEX' | 'DINERS' | 'HIPERCARD' | 'OUTROS' | 'VISAMASTER' | 'ELODEMAISBANDEIRAS'
   type: 'LIBERADO' | 'LIMITE'
   bankName: string
+  locationId: string
 }
 
 export interface SimulationResult {
