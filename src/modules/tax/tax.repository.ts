@@ -11,23 +11,43 @@ export class TaxRepository {
         card_flag: data.cardFlag,
         type: data.type,
         description: data.description,
-        bank_name: data.bankName
+        bank_name: data.bankName,
+        location_id: data.locationId
       }
     })
   }
 
-  async findMany() {
-    return prisma.tax.findMany({
-      orderBy: {
-        installments_number
-        : 'asc'
-      }
-    })
-  }
+ async findMany() {
+  return prisma.tax.findMany({
+    orderBy: {
+      installments_number: 'asc',
+    },
+    include: {
+      location: {
+        select: {
+          id: true,
+          name: true,
+          city: true,
+          state: true,
+        },
+      },
+    },
+  })
+}
 
   async findById(id: string) {
     return prisma.tax.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        location: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            state: true,
+          },
+        },
+      },
     })
   }
 
@@ -37,7 +57,8 @@ export class TaxRepository {
         installments_number: data.installmentsNumber,
         card_flag: data.cardFlag,
         type: data.type,
-        bank_name: data.bankName
+        bank_name: data.bankName,
+        location_id: data.locationId
       }
     })
   }
@@ -52,6 +73,7 @@ export class TaxRepository {
         type: data.type,
         bank_name: data.bankName,
         description: data.description,
+        location_id: data.locationId
       },
     })
   }

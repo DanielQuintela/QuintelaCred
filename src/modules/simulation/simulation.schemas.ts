@@ -6,7 +6,7 @@ export const simulationSchema = z.object({
 
   installmentsNumber: z.number().min(1).max(21),
 
-  cardFlag: z.enum(['MASTER', 'VISA', 'ELO', 'AMEX', 'DINERS', 'HIPERCARD', 'OUTROS']),
+  cardFlag: z.enum(['MASTER', 'VISA', 'ELO', 'AMEX', 'DINERS', 'HIPERCARD', 'OUTROS', 'VISAMASTER', 'ELODEMAISBANDEIRAS']),
 
   type: z.enum(['LIBERADO', 'LIMITE']),
 

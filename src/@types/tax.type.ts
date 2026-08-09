@@ -6,6 +6,7 @@ export interface CreateTaxData {
   type: 'LIBERADO' | 'LIMITE'
   description?: string
   bankName?: string
+  locationId: string
 }
 
 export interface GetTaxData {
@@ -15,6 +16,7 @@ export interface GetTaxData {
   type: 'LIBERADO' | 'LIMITE'
   description?: string
   bankName?: string
+  locationId: string
 }
 
 export interface UpdateTaxData {
@@ -25,4 +27,5 @@ export interface UpdateTaxData {
   type: 'LIBERADO' | 'LIMITE'
   description?: string
   bankName?: string
+  locationId: string
 }
