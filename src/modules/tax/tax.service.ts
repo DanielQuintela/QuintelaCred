@@ -16,6 +16,8 @@ export class TaxService {
       )
     }
 
+    console.log('Creating tax with data:', data);
+
     const tax = await taxRepository.create(data)
 
     createAuditLog({
@@ -55,6 +57,8 @@ export class TaxService {
       throw new ResponseError('Taxa não encontrada', 404)
     }
 
+    console.log('Atualizando taxa com dados:', data);
+    
      const taxSameExists = await taxRepository.findExisting(data)
     
     if (taxSameExists) {
@@ -79,6 +83,8 @@ export class TaxService {
 
   async delete(id: string, req: any) {
     const taxExists = await taxRepository.findById(id)
+
+    console.log('Deleting tax with id:', id);
 
     if (!taxExists) {
       throw new ResponseError('Taxa não encontrada', 404)

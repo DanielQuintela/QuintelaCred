@@ -55,6 +55,7 @@ export class TaxRepository {
     return prisma.tax.findFirst({
       where: {
         installments_number: data.installmentsNumber,
+        value: data.value,
         card_flag: data.cardFlag,
         type: data.type,
         bank_name: data.bankName,
