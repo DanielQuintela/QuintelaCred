@@ -58,4 +58,13 @@ export class UserRepository {
             }
         });
     }
+
+    async updateFirstLogin(id: string, firstLogin: boolean) {
+        return prisma.user.update({
+            where: { id },
+            data: {
+                first_login: firstLogin
+            }
+        });
+    }
 }

@@ -121,4 +121,27 @@ export class UserService {
 
         return updatedUser
     }
+
+    async updateFirstLogin(id: string, firstLogin: boolean) {
+        const user = await repository.findById(id)
+
+        if (!user) {
+            throw new ResponseError('Usuário não encontrado')
+        }
+
+      
+
+        const updatedUser = await repository.updateFirstLogin(id, firstLogin)
+
+        createAuditLog({
+            table_name: 'user',
+            record_id: user.id,
+            action: 'UPDATE',
+            user_id: id,
+            old_values: user,
+            new_values: updatedUser
+        })
+
+        return updatedUser
+    }
 }

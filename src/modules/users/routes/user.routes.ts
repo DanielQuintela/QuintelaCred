@@ -15,5 +15,6 @@ router.put('/:id', authMiddleware, adminMiddleware, validateDto(createUserSchema
 router.delete('/:id', authMiddleware, adminMiddleware, controller.delete)
 router.patch('/:id/status', authMiddleware, adminMiddleware, controller.updateStatus)
 router.patch('/:id/password', authMiddleware, controller.updatePassword)
+router.patch('/:id/first-login', authMiddleware, controller.updateFirstLogin)
 
 export { router as userRoutes }
