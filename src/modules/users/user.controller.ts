@@ -52,4 +52,12 @@ export class UserController {
 
         return res.json(userMapper(user))
     }
+
+    async updateFirstLogin(req: Request, res: Response) {
+        const id = req.params.id as string
+        const { firstLogin } = req.body
+        const user = await service.updateFirstLogin(id, firstLogin)
+
+        return res.json(userMapper(user))
+    }
 }
