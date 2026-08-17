@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id                    String      @id @default(uuid())
-  email                 String      @unique
-  password              String
-  name                  String
+  id                     String      @id @default(uuid())
+  email                  String      @unique
+  password               String
+  name                   String
 
-  role                  UserRole
-  status                UserStatus  @default(ACTIVE)
-  
+  role                   UserRole
+  status                 UserStatus  @default(ACTIVE)
+  first_login            Boolean     @default(true)
+
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
 }

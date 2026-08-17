@@ -100,7 +100,8 @@ export class AuthService {
         name: true,
         email: true,
         role: true,
-        status: true
+        status: true,
+        first_login: true
       }
     })
   }
