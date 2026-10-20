@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { RegisterLocationData } from "../../@types/location.type";
-import { LocationService } from "./locaion.service";
+import { LocationService } from "./location.service";
 import { locationMapper } from "../../infra/mappers/location.mapper";
 
 
