@@ -20,12 +20,26 @@ export class LocationRepository {
             orderBy: {
                 name: 'asc',
             },
+        include: {
+            _count: {
+                select: {
+                    taxes: true
+                    }
+                }
+            },
         })
     }
 
     async findById(id: string) {
         return prisma.location.findUnique({
             where: { id },
+            include: {
+            _count: {
+                select: {
+                    taxes: true
+                    }
+                }
+            },
         })
     }
 
@@ -35,7 +49,14 @@ export class LocationRepository {
                 name: data.name,
                 city: data.city,
                 state: data.state
-            }
+            },
+            include: {
+            _count: {
+                select: {
+                    taxes: true
+                    }
+                }
+            },
         })
     }
 
@@ -47,7 +68,14 @@ export class LocationRepository {
                 city: data.city,
                 state: data.state,
                 is_active: data.is_active
-            }
+            },
+            include: {
+            _count: {
+                select: {
+                    taxes: true
+                    }
+                }
+            },
         })
     }
 
@@ -62,7 +90,14 @@ export class LocationRepository {
             where: { id },
             data: {
                 is_active: is_active
+            },
+            include: {
+            _count: {
+                select: {
+                    taxes: true
+                }
             }
+         },
         })
     }
 

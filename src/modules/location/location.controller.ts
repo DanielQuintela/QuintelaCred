@@ -25,6 +25,7 @@ export class LocationController {
     }
 
     findMany = async (_req: Request, res: Response) => {
+
         const locations = await service.findMany()
 
         return res.json(locations.map(locationMapper))
