@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { RegisterLocationData } from "../../@types/location.type";
-import { LocationService } from "./locaion.service";
+import { LocationService } from "./location.service";
 import { locationMapper } from "../../infra/mappers/location.mapper";
 
 
@@ -25,6 +25,7 @@ export class LocationController {
     }
 
     findMany = async (_req: Request, res: Response) => {
+
         const locations = await service.findMany()
 
         return res.json(locations.map(locationMapper))
